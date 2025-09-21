@@ -5,6 +5,8 @@ import Task from "./Task";
 
 const Show = () => {
     const [todoList, setTodoList] = useState([]);
+    const [addNew , setAddNew] = useState(false);
+    const [newTask , setNewTask] = useState("");
 
     const token = localStorage.getItem("token");
 
@@ -20,6 +22,23 @@ const Show = () => {
         setTodoList(data);
     };
 
+    const handleAddNew = async() =>{
+        const res = await fetch("http://localhost:5000/todos/" ,  {
+                method : "POST" ,
+
+                headers : {
+                    Authorization : token ,
+                    "Content-Type" : "application/json"
+                },
+                body : JSON.stringify({task : newTask})      
+            }
+        );
+
+        const data = res.json();
+        setNewTask("");
+        setAddNew(false);
+        
+    }
 
     useEffect(() => {
         fetchTodos();
@@ -34,7 +53,18 @@ const Show = () => {
                 <Task key={todo.id} data={todo} />
             ))}
             </div>
-            <span>Add new</span>
+            {
+                addNew && (
+                    <>
+                        <div className="addnew">
+                            <input type="text" onChange={(e) => setNewTask(e.target.value)} value={newTask}/>
+                            <button onClick={()=> handleAddNew()}>Add</button>
+                        </div>
+                    
+                    </>
+                )
+            }
+            <span onClick={()=>{setAddNew(!addNew)}}>{addNew ? "Hide" : "Add new"}</span>
         </div>
         </div>
     );

@@ -2,6 +2,7 @@ body{
     margin: 0;
     padding: 0;
     background-color: whitesmoke;
+    
     font-family: monospace;
 }
 
@@ -82,11 +83,11 @@ span:hover{
     padding: 20px;
     margin-top: 120px;
     background-color: white;
-    border: 1px solid black;
+    border: 1px solid #ccc;
     border-radius: 4px;
 }
 .task-container{
-    border: 1px solid grey;
+   
     border-radius: 10px;
     padding: 10px;
     margin-bottom: 10px;
@@ -97,6 +98,46 @@ span:hover{
 }
 
 .btn-todo button{
-    
+    background-color: rgb(255, 253, 253);
     cursor: pointer;
+}
+
+.addnew{
+    display: flex;
+    gap: 10px;
+}
+
+.addnew input{
+    width: 75%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    
+    
+}
+
+.addnew button{
+        width:60px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        background-color: #ccc;
+}
+
+.addnew button:hover{
+        width:60px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        border-color: black;
+}
+
+
+.task{
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding-left:  10px;
+    padding-bottom:  10px;
+    border-radius: 10px;
 }
