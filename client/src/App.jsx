@@ -3,8 +3,8 @@ import { useState } from "react"
 import Auth from "./components/Auth"
 import Show from "./components/Show"
 function App() {
-  const [isLoggedIn , setIsLoggedIn] = useState(false);
-
+  const [isLoggedIn , setIsLoggedIn] = useState(() => !!localStorage.getItem("token"));
+  
   return (
     
     <>

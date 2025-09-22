@@ -105,6 +105,8 @@ span:hover{
 .addnew{
     display: flex;
     gap: 10px;
+    margin-left: 10px;
+    margin-bottom: 5px;
 }
 
 .addnew input{
@@ -140,4 +142,15 @@ span:hover{
     padding-left:  10px;
     padding-bottom:  10px;
     border-radius: 10px;
+}
+
+.task input{
+     width: 90%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    margin: 10px 0;
 }
