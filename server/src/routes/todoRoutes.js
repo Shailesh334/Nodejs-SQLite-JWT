@@ -1,40 +1,65 @@
 import express from 'express'
 import db from '../db.js'
+import prisma from '../prismaClient.js';
 
 const router = express.Router()
 
 // Get all todos for logged-in user
-router.get('/', (req, res) => {
-    const getTodos = db.prepare('SELECT * FROM todos WHERE user_id = ?')
-    const todos = getTodos.all(req.userId)
+router.get('/', async(req, res) => {
+    
+    const todos = await prisma.todo.findMany({
+        where:{
+            userId : req.userId
+        }
+    })
     res.json(todos)
 });
 
-router.post("/" , (req , res) => {
-    const insertTodo = db.prepare(`INSERT INTO todos (user_id , task) VALUES ( ? , ?)`);
-    console.log("req.userId:", req.userId);
+router.post("/" , async (req , res) => {
 
-    const result  = insertTodo.run(req.userId , req.body.task)
-    res.json({id : result.lastInsertRowid , task : req.body.task , iscompleted : 0})
+    const { task} = req.body ;
+
+    const todo = await prisma.todo.create({
+        data: {
+            task :task ,
+            userId : req.userId
+        }
+    })
+    res.json(todo)
 })
 
 
-router.put("/:id" , (req , res)=>{
+router.put("/:id" , async (req , res)=>{
     const {task} = req.body;
     const {id} = req.params;
 
-    const updateTodo = db.prepare(`UPDATE todos SET task = ? , user_id = ? WHERE id = ?`);
+    
 
-    const result = updateTodo.run(task , req.userId , id );
+    const updateTodo = await prisma.todo.update({
+        where : {
+            id : parseInt(id)
+        },
+        data : {
+            task : task  
+        }
+    })
+  
 
-    res.json({result: result , message : "Todo updated succesfully"});
+    res.json(updateTodo);
 })
 
-router.delete("/:id" , (req , res)=>{
+router.delete("/:id" , async (req , res)=>{
     const {id} = req.params;
 
-    const delTodo = db.prepare(`DELETE FROM todos WHERE id = ? AND user_id = ?`);
-    const result = delTodo.run(id , req.userId);
-    res.json({result:result , message:"Todo deleted Successfullty"});
+  
+
+    const delTodo = await prisma.todo.delete({
+        where:{
+            id : parseInt(id) ,
+            userId : req.userId
+        }
+    })
+   
+    res.json(delTodo);
 })
 export default router;
